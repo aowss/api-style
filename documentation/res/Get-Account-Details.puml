@@ -1,0 +1,178 @@
+@startuml
+
+actor Client
+
+box "Account API" #LightBlue
+    boundary "Get Account Details" as AccountDetails
+end box
+
+box "Microservice" #LightGreen
+    boundary "Account Microservice" as Account
+    boundary "Subscriptions Microservice" as Subscriptions
+    boundary "Fraud Microservice" as Fraud
+    database Cassandra
+end box
+
+activate AccountDetails
+
+Client -> AccountDetails: ""GET /v1/customer/accounts/{accountId}""
+
+AccountDetails -> AccountDetails: Check authorization
+
+par
+
+AccountDetails ->> Account: ""GET /v1/account/{accountId}""
+
+activate Account
+note right of AccountDetails : ""apiKey"" header
+
+Account ->> Cassandra: Fetch account details
+Account <-- Cassandra
+
+AccountDetails <-- Account
+note left of Account
+{
+    "accountsDetails": [
+        {
+            "accountNumber": "694762329",
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "activeFrom": null,
+            "consolidatedAccountInd": false,
+            "accountStatus": "OPEN",
+            "reasonCode": null,
+            "fraudInd": null,
+            "lineOfBussiness": "WL",
+            "accountEventLastTs": null,
+            "franchiseCode": "Rogers",
+            "customerBillingProfileId": "804737093",
+            "consolidatedAccountNumber": null,
+            "IDVInd": null,
+            "ecId": "29517889"
+        }
+    ],
+    "billingAddress": {
+        ...
+    }
+}
+end note
+
+deactivate Account
+
+else
+
+AccountDetails ->> Subscriptions: ""GET /v1/subscriptions/{accountId}""
+
+activate Subscriptions
+note right of AccountDetails : ""apiKey"" header
+
+Subscriptions ->> Cassandra: Fetch subscriptions
+Subscriptions <-- Cassandra
+
+AccountDetails <-- Subscriptions
+note left of Subscriptions
+[
+    {
+        "accountNumber": "694762329",
+        "subscriptionType": "CTN",
+        "subscriptionNo": "4168777698",
+        "reasonCode": "CA  ",
+        "currentPlanName": null,
+        "dmEligibilityIndicator": false,
+        "effectiveDate": "2019-06-20 20:00:00-0400",
+        "futurePlanName": null,
+        "ppcEffectiveDate": null,
+        "familyShareStatus": "",
+        "status": "Active",
+        "userName": {
+            "firstName": "Ali",
+            "lastName": "Karteek"
+        },
+        "subscriptionAddress": {
+            ...
+        }
+    }
+]
+end note
+
+deactivate Subscriptions
+
+opt OVF client
+
+AccountDetails ->> Fraud: ""GET /v1/fraud/{accountId} ""
+
+activate Fraud
+note right of AccountDetails : ""apiKey"" header
+
+Fraud ->> Cassandra: Fetch fraud details
+Fraud <-- Cassandra
+
+AccountDetails <-- Fraud
+note left of Fraud
+{
+    "accountFraudDetails": [
+        {
+            "accountNumber": "921530473",
+            "reasonCode": "CA  ",
+            "accountStatus": "SUSPENDED",
+            "fraudInd": false,
+            "subscriptionFraudDetails": [
+                {
+                    "subscriptionId": "4167320116",
+                    "reasonCode": "CLM ",
+                    "status": "Suspended",
+                    "fraudSocInd": false
+                }, 
+                {
+                    "subscriptionId": "4167320667",
+                    "reasonCode": "CA  ",
+                    "status": "Active",
+                    "fraudSocInd": false
+                }
+            ]
+        }
+    ]
+}
+end note
+
+deactivate Fraud
+
+end
+
+end
+
+AccountDetails -> AccountDetails: Combine and Map
+
+Client <-- AccountDetails
+note left of AccountDetails
+{
+    "accountNumber": "694762329",
+    "state": "Active",
+    "status": "Open",
+    "type": "Consumer",
+    "subtype": "Regular",
+    "isFraudulent": true,
+    "activationDate": "2019-06-20",
+    "services": [
+        {
+            "category": "Wireless",
+            "type": "Non-Shared",
+            "number": "4168777698",
+            "name": {
+                "firstName": "Ali",
+                "lastName": "Karteek"
+            },
+            "links": [
+                ...
+            ]
+        }
+    ],
+    "links": [
+        ...
+    ]
+}
+end note
+
+deactivate AccountDetails
+
+@enduml

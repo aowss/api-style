@@ -1,0 +1,9 @@
+server:
+  port: 9000
+  tomcat:
+    basedir: target/tomcat
+    accesslog:
+      enabled: true
+      buffered: false
+      directory: logs
+      pattern: common

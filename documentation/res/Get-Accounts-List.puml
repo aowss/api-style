@@ -1,0 +1,106 @@
+@startuml
+
+actor Client
+
+box "Account API" #LightBlue
+    boundary "Get Accounts List" as AccountsList
+end box
+
+box "Microservice" #LightGreen
+    boundary "Account Microservice" as Account
+    database Cassandra
+end box
+
+activate AccountsList
+
+Client -> AccountsList: ""GET /v1/customer/accounts""
+note right of Client
+{
+    "guid": "...",
+    "accounts": [
+        {
+            "accountNumber": "...",
+            "phoneNumber": "..."
+        }
+    ],
+    "scopes": [ "...", "..." ]
+}
+end note
+
+AccountsList -> AccountsList: Check authorization
+
+loop for each account in token
+
+par
+
+AccountsList ->> Account: ""GET /v1/account/{accountId}""
+
+activate Account
+note right of AccountsList : ""apiKey"" header
+
+Account ->> Cassandra: Fetch account details
+Account <-- Cassandra
+
+AccountsList <-- Account
+note left of Account
+{
+    "accountsDetails": [
+        {
+            "accountNumber": "694762329",
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "activeFrom": null,
+            "consolidatedAccountInd": false,
+            "accountStatus": "OPEN",
+            "reasonCode": null,
+            "fraudInd": null,
+            "lineOfBussiness": "WL",
+            "accountEventLastTs": null,
+            "franchiseCode": "Rogers",
+            "customerBillingProfileId": "804737093",
+            "consolidatedAccountNumber": null,
+            "IDVInd": null,
+            "ecId": "29517889"
+        }
+    ],
+    "billingAddress": {
+        ...
+    }
+}
+end note
+
+deactivate Account
+
+end
+
+end
+
+AccountsList -> AccountsList: Combine and Map
+
+Client <-- AccountsList
+note left of AccountsList
+[
+    {
+        "accountNumber": "694762329",
+        "name": "My Account",
+        "state": "Active",
+        "type": "Consumer",
+        "links": [
+            ...
+        ]
+    },
+    {
+        "accountNumber": "694762330",
+        "name": "My Wife's Account",
+        "state": "Active",
+        "type": "Consumer",
+        "links": [
+            ...
+        ]
+    }
+]
+end note
+
+deactivate AccountsList
+
+@enduml

@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  account-api-artifactory:
+#    image: digimobile-docker-dev-local.artifactory.rogers.com/account-api:1.0.0.65
+#    image: digimobile-docker-dev-local.artifactory.rogers.com/account-api:latest
+    image: digimobile-docker-dev-local.artifactory.rogers.com/account-api
+    ports:
+      - 9901:9000
+      - 8801:8000
+    environment:
+      - CRYPTO_ALGORITHM=${CRYPTO_ALGORITHM}
+      - CRYPTO_IV=${CRYPTO_IV}
+      - CRYPTO_KEY=${CRYPTO_KEY}
+
+      - ENV_PREFIX=${ENV_PREFIX}
+
+      - JWT_KEYSTORE_PATH=${JWT_KEYSTORE_PATH}
+      - JWT_KEYSTORE_PASSWORD=${JWT_KEYSTORE_PASSWORD}
+      - JWT_KEY=${JWT_KEY}
+
+      - MICROSERVICES_API_KEY=${MICROSERVICES_API_KEY}
+      - ACCOUNT_SERVICE_CONTEXT=${ACCOUNT_SERVICE_CONTEXT}
+      - CONTACTS_SERVICE_CONTEXT=${CONTACTS_SERVICE_CONTEXT}
+    volumes:
+      - ./security:/opt/data/security
+    container_name: account-api-artifactory
+    entrypoint: java -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n -Djava.security.egd=file:/dev/./urandom -jar app.jar
+
+networks:
+  default:
+    driver: bridge

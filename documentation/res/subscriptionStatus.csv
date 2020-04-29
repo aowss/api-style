@@ -1,0 +1,14 @@
+﻿Subscriptions Microservice, Subscription State, Subscription Status
+Suspended inactive,Inactive,Suspended
+Active inactive,Inactive,Active
+Cancelled inactive,Inactive,Cancelled
+Please Specify,Inactive, Unknown
+N/A,Inactive,Unknown
+Pending Activation,Inactive,Pending Activation
+Ceased,Inactive,Ceased
+Active,Active,Active
+Cancelled,Active,Cancelled
+Suspended,Active,Suspended
+Reserved,Active,Reserved
+Terminated,Active,Terminated
+Any other, Unknown, Unknown
