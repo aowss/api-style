@@ -4,17 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import uni.micasa.com.domain.Course;
 
 import java.util.function.Function;
-/*
-public record CourseRepresentation(@JsonProperty("code") String code, @JsonProperty("description") String description) {
 
-    public CourseRepresentation {
-        this.description = description.substring(0, 100) + " ...";
-    }
-
-    public static Function<Course, CourseRepresentation> from = course -> new CourseRepresentation(course.getCode(), course.getDescription());
-
-}
-*/
 public class CourseRepresentation {
 
     @JsonProperty

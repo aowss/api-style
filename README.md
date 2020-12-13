@@ -22,7 +22,6 @@ The project is structured as follows :
 The following should be installed locally :
 
 * [Java 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
-* [Docker](https://www.docker.com)
 * [Maven 3.6](http://maven.apache.org/)
 
 ### Build

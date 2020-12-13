@@ -11,7 +11,6 @@ import uni.micasa.com.rest.representations.CourseRepresentation;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
