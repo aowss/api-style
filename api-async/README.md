@@ -2,7 +2,7 @@
 
 ## Implementation
 
-* The controller methood returns a `CompletableFuture<ResponseEntity>`
+* The controller method returns `CompletableFuture<ResponseEntity>`
 * The service method returns `CompletableFuture<List<Course>>`
 
 ## Run

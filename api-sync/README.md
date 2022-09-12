@@ -2,7 +2,7 @@
 
 ## Implementation
 
-* The controller methood returns a `ResponseEntity`
+* The controller method returns `ResponseEntity`
 * The service method returns `List<Course>`
 
 ## Run
