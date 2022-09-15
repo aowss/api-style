@@ -5,15 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import uni.micasa.com.activities.RetrieveCourses;
 import uni.micasa.com.rest.representations.CourseRepresentation;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("sync")
+@RequestMapping("reactive")
 public class CourseResource {
 
     RetrieveCourses retrieveCourses;
@@ -23,9 +22,10 @@ public class CourseResource {
     }
 
     @GetMapping(value = "courses")
-    public ResponseEntity<List<CourseRepresentation>> accountsList(@RequestParam("departmentCode") String departmentCode) throws IOException {
+    public ResponseEntity<Flux<CourseRepresentation>> coursesList(@RequestParam("departmentCode") String departmentCode) throws IOException {
         var courses = retrieveCourses.retrieveCourses(departmentCode);
-        return ResponseEntity.ok(courses.stream().map(CourseRepresentation.from).collect(Collectors.toList()));
+        return ResponseEntity.ok(courses
+                .map(CourseRepresentation.from));
     }
 
 }

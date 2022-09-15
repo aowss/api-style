@@ -1,6 +1,7 @@
 package uni.micasa.com.activities;
 
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import uni.micasa.com.domain.Course;
 import uni.micasa.com.services.CourseService;
 
@@ -16,7 +17,7 @@ public class RetrieveCourses {
         this.courseService = courseService;
     }
 
-    public List<Course> retrieveCourses(String departmentCode) throws IOException {
+    public Flux<Course> retrieveCourses(String departmentCode) throws IOException {
         return courseService.retrieveCourses(departmentCode);
     }
 
