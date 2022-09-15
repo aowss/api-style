@@ -23,9 +23,11 @@ public class CourseResource {
     }
 
     @GetMapping(value = "courses")
-    public ResponseEntity<List<CourseRepresentation>> accountsList(@RequestParam("departmentCode") String departmentCode) throws IOException {
+    public ResponseEntity<List<CourseRepresentation>> coursesList(@RequestParam("departmentCode") String departmentCode) throws IOException {
         var courses = retrieveCourses.retrieveCourses(departmentCode);
-        return ResponseEntity.ok(courses.stream().map(CourseRepresentation.from).collect(Collectors.toList()));
+        return courses.isEmpty()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(courses.stream().map(CourseRepresentation.from).collect(Collectors.toList()));
     }
 
 }

@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 9002
   tomcat:
     basedir: target/tomcat
     accesslog:
@@ -7,8 +7,3 @@ server:
       buffered: false
       directory: logs
       pattern: common
-
-logging:
-  level:
-    account.rogers.com: INFO
-    org.springframework.web: INFO

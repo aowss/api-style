@@ -3,12 +3,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
-    </parent>
-
     <groupId>com.micasa.tutorial</groupId>
     <artifactId>api-style</artifactId>
     <version>0.1.0</version>
@@ -18,7 +12,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <apache-csv.version>1.8</apache-csv.version>
+        <spring-boot.version>2.7.3</spring-boot.version>
+        <apache-csv.version>1.9.0</apache-csv.version>
     </properties>
 
     <modules>
@@ -28,11 +23,6 @@
     </modules>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
