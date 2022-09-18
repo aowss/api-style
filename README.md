@@ -13,12 +13,12 @@ In particular, in this example, there is no real need for:
 
 ## Main Differences
 
-| Style                           | Controller return type                                          | Service return type               | Exception handling                              |
-|---------------------------------|-----------------------------------------------------------------|-----------------------------------|-------------------------------------------------|
-| [Synchronous API](./api-sync)   | `ResponseEntity<List<CourseRepresentation>>`                    | `List<Course>`                    | try / catch & `ResponseEntityExceptionHandler`  |
-| [Asynchronous API](./api-async) | `CompletableFuture<ResponseEntity<List<CourseRepresentation>>>` | `CompletableFuture<List<Course>>` |                                                 |
-| [Reactive API](./api-reactive)  | `ResponseEntity<Flux<CourseRepresentation>>`                    | `Flux<Course>`                    |                                                 |
-|                                 |                                                                 |                                   |                                                 |
+| Style                           | Controller return type                                          | Service return type               | Exception handling                                 | Testing                                                                                                                 |
+|---------------------------------|-----------------------------------------------------------------|-----------------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| [Synchronous API](./api-sync)   | `ResponseEntity<List<CourseRepresentation>>`                    | `List<Course>`                    | try / catch & `ResponseEntityExceptionHandler`     | [`MockMvc`](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) |
+| [Asynchronous API](./api-async) | `CompletableFuture<ResponseEntity<List<CourseRepresentation>>>` | `CompletableFuture<List<Course>>` | `exceptionally` & `ResponseEntityExceptionHandler` | [`MockMvc`](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) |
+| [Reactive API](./api-reactive)  | `ResponseEntity<Flux<CourseRepresentation>>`                    | `Flux<Course>`                    |                                                    | [`WebTestClient`](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#webtestclient)       |
+|                                 |                                                                 |                                   |                                                    |                                                                                                                         |
 
 Note that since there is no semantic difference between an empty list of courses and no list at all, the service return type is not wrapped in an `Optional`.  
 
@@ -101,3 +101,4 @@ For offline profiling use
 * Add Virtual Thread style
 * Add an API with 2 parallel calls
 * Add a database call and an API call
+* Add a client using the JDK's HttpClient
