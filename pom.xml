@@ -13,6 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>2.7.3</spring-boot.version>
+        <jackson.version>2.13.3</jackson.version>
         <apache-csv.version>1.9.0</apache-csv.version>
     </properties>
 

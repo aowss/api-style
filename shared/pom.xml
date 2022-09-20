@@ -14,10 +14,6 @@
 
     <description>Shared Code</description>
 
-    <properties>
-        <jackson.version>2.12.5</jackson.version>
-    </properties>
-
     <build>
         <finalName>shared</finalName>
     </build>
