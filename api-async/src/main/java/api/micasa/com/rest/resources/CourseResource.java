@@ -23,7 +23,7 @@ public class CourseResource {
     }
 
     @GetMapping(value = "courses")
-    public CompletableFuture<ResponseEntity<List<CourseRepresentation>>> coursesList(@RequestParam("departmentCode") String departmentCode) throws IOException {
+    public CompletableFuture<ResponseEntity<List<CourseRepresentation>>> coursesList(@RequestParam("departmentCode") String departmentCode) {
         return retrieveCourses.retrieveCourses(departmentCode)
                 .thenApply(list -> list.stream().map(CourseRepresentation.from).toList())
                 .thenApply(response -> response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response));

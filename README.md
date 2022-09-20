@@ -2,14 +2,13 @@
 
 The objective is to compare the way the code is written depending on the interaction style chosen.
 
-We use [Spring Boot](https://spring.io/projects/spring-boot) and implement a very simple API to retrieve a list of courses.  
-The courses are stored in a CSV file.
+We use [Spring Boot](https://spring.io/projects/spring-boot) and implement:
 
-Even though the API is simplistic, the code is written as if it is production code.  
-In particular, in this example, there is no real need for:
-* a representation class,
-* using `ResponseEntity`,
-* using an exception mapper.
+1. a very simple API to retrieve a list of courses that are stored in a CSV file,
+2. a slightly more complex API to retrieve company information from the SEC:  
+
+![](/Users/aowss/Documents/repositories/aowss/api-style/Flow.png)
+
 
 ## Main Differences
 
@@ -57,7 +56,7 @@ Here are the instructions for the `api-sync` module.
 
 * Build and package
 
-> `mvn package`
+> `mvn clean package`
 
 * Start the service
 
@@ -96,9 +95,9 @@ For offline profiling use
 
 ## To Do
 
-* Add tests
 * Implement Reactive ( 204 when no courses + exception handling )
 * Add Virtual Thread style
 * Add an API with 2 parallel calls
 * Add a database call and an API call
 * Add a client using the JDK's HttpClient
+* Add tests for error cases

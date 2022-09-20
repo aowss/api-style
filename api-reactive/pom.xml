@@ -11,21 +11,42 @@
 
     <groupId>com.micasa.tutorial</groupId>
     <artifactId>api-reactive</artifactId>
-    <version>0.1.0</version>
-    <packaging>jar</packaging>
 
     <description>Reactive API</description>
 
-    <build>
-        <finalName>api-reactive</finalName>
-    </build>
-
     <dependencies>
+        <dependency>
+            <groupId>com.micasa.tutorial</groupId>
+            <artifactId>shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>api-reactive</finalName>
+        <plugins>
+            <!-- creating an executable jar -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>api.micasa.com.App</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -1,0 +1,39 @@
+@startuml
+
+actor client
+control api
+
+box "SEC APIs" #LightPink
+    participant "Ticker to CIK" as tickerAPI
+    participant "Company Information" as companyAPI
+end box
+
+client -> api: retrieve companies information
+
+api -> api: validate request
+
+alt#OrangeRed invalid request
+    client <-[#OrangeRed]- api: <font color=OrangeRed>""400 Bad Reqest""</font>
+else
+
+    api -> tickerAPI: retrieve CIKs for requested tickers
+    api <-- tickerAPI
+
+    alt#OrangeRed unknown tickers
+        client <-[#OrangeRed]- api: <font color=OrangeRed>""404 Not Found""</font>
+    else
+
+        group for each company [in parallel]
+            api -> companyAPI: retrieve company information
+            api <-- companyAPI
+        end
+
+        api -> api: filter based on ""from"", ""to"", ""breakdown"", ""info""
+        api -> api: transform
+
+        client <-- api: ""200 OK""
+
+    end
+
+end
+@enduml
