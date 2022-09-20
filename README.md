@@ -7,7 +7,7 @@ We use [Spring Boot](https://spring.io/projects/spring-boot) and implement:
 1. a very simple API to retrieve a list of courses that are stored in a CSV file,
 2. a slightly more complex API to retrieve company information from the SEC:  
 
-![](/Users/aowss/Documents/repositories/aowss/api-style/Flow.png)
+![](./Flow.png)
 
 
 ## Main Differences
