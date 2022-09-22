@@ -34,7 +34,9 @@ public record CompanyInfo(int cik, String entityName, Facts facts) {
 
     static Function<String, CompanyInfo> from = body -> {
         try {
-            return jacksonMapper.readValue(body, CompanyInfo.class);
+            CompanyInfo info = jacksonMapper.readValue(body, CompanyInfo.class);
+            info.facts().accounting().entrySet().removeIf(entry -> entry.getValue().label().contains("Deprecated"));
+            return info;
         } catch (JsonProcessingException e) {
             throw new InvalidResponseException("retrieve company info", e.getMessage(), body);
         }
